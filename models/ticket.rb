@@ -56,7 +56,16 @@ class Ticket
     SqlRunner.run(sql, values)
   end
   #####################################################################
-
+  # def buy
+  #   sql = "SELECT funds - films.price FROM films
+  #          INNER JOIN tickets
+  #          ON films.id = tickets.film_id
+  #          INNER JOIN customers
+  #          on customers.id = tickets.customer_id
+  #          WHERE customer_id = $1
+  #                film_id = $2;"
+  #   SqlRunner.run(sql, @customer_id, @film_id)
+  # end
 
 #######################################################################
 #######################################################################
