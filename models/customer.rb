@@ -3,13 +3,14 @@ require_relative('../db/sql_runner.rb')
 class Customer
   #####################################################################
   attr_reader(:id, :name)
-  attr_accessor(:funds)
+  attr_accessor(:funds, :ticket_count)
   #####################################################################
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
     @name = options['name']
     @funds = options['funds'].to_i
+    @ticket_count = 0
   end
   #####################################################################
   #####################################################################
@@ -112,10 +113,29 @@ class Customer
   # end
   ####################################################################
   def buy_ticket
-    sql_1 = "SELECT funds FROM customers"
-    result = SqlRunner.run(sql_1).first
-    return result['funds'].to_i
 
+    sql_1 = "SELECT funds FROM customers"
+    fund_hash = SqlRunner.run(sql_1).first
+    funds = fund_hash['funds'].to_i
+
+    sql_2 = "SELECT price FROM films"
+    price_hash = SqlRunner.run(sql_2).first
+    price = price_hash['price'].to_i # call price key and then to_i the string into something I can use
+
+    remaining_funds = funds -= price
+    self.funds = remaining_funds
+    self.update
+    @ticket_count += 1
+    ## funds updated, now to update tickets?
+
+  ## Ticket updated as well
+    # sql_3 = "UPDATE tickets
+    #        SET
+    #        customer_id = $1,
+    #        film_id = $2
+    #        WHERE id = $3"
+    # values = [@id, film_id, @ticket_id]
+    # SqlRunner.run(sql_3, values)
   end
 
 ######################################################################
