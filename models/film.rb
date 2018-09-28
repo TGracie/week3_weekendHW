@@ -7,7 +7,7 @@ class Film
   #####################################################################
 
   def initialize(options)
-    @id = options['id'].to_i
+    @id = options['id'].to_i if options['id']
     @title = options['title']
     @price = options['price'].to_i
   end
@@ -60,6 +60,17 @@ class Film
            WHERE id = $1"
     values = [@id]
     SqlRunner.run(sql, values)
+  end
+  #####################################################################
+
+  def customers()
+    sql = "SELECT * FROM customers
+           INNER JOIN tickets
+           ON customers.id = tickets.customer_id
+           WHERE film_id = $1;"
+    customers = SqlRunner.run(sql, [@id])
+    result = customers.map{|customer| Customer.new(customer)}
+    return result
   end
 
 #######################################################################

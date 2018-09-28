@@ -7,7 +7,7 @@ class Customer
   #####################################################################
 
   def initialize(options)
-    @id = options['id'].to_i
+    @id = options['id'].to_i if options['id']
     @name = options['name']
     @funds = options['funds'].to_i
   end
@@ -64,7 +64,40 @@ class Customer
     SqlRunner.run(sql, values)
   end
   #####################################################################
+  # def films()
+  #   sql = "SELECT films.*
+  #          FROM films
+  #          INNER JOIN tickets
+  #          ON films.id = tickets.film_id
+  #          WHERE film_id = $1;"
+  #
+  #   films = SqlRunner.run(sql, [@id])
+  #   result = films.map{|film| Film.new(film)}
+  #   return result
+  # end
+  # returns empty array of films
 
+  def films()
+    sql = "SELECT * FROM films
+              INNER JOIN tickets
+              ON films.id = tickets.film_id
+              WHERE customer_id = $1;"
+
+    films = SqlRunner.run(sql, [@id])
+    result = films.map{|film| Film.new(film)}
+    return result
+  end
+  #####################################################################
+  def purchase
+    sql = "SELECT funds - films.price AS funds FROM customers
+           INNER JOIN tickets
+           ON films.id = tickets.film_id
+           INNER JOIN customers
+           ON customers.id = tickets.customer_id
+           WHERE customer_id = $1;"
+    SqlRunner.run(sql, [@id])
+
+  end
 
 #######################################################################
 #######################################################################
