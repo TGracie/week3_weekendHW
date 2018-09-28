@@ -110,6 +110,13 @@ class Customer
   #          WHERE customer_id = $1;"
   #   SqlRunner.run(sql, [@customer_id])
   # end
+  ####################################################################
+  def buy_ticket
+    sql_1 = "SELECT funds FROM customers"
+    result = SqlRunner.run(sql_1).first
+    return result['funds'].to_i
+
+  end
 
 ######################################################################
 ######################################################################
