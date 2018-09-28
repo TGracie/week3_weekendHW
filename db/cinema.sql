@@ -13,8 +13,8 @@ CREATE TABLE films(
 CREATE TABLE customers(
   id SERIAL4 PRIMARY KEY,
   name VARCHAR(255),
-  funds INT,
-  ticket_count INT
+  funds INT
+  -- ticket_count INT
 );
 
 CREATE TABLE tickets(

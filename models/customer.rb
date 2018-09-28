@@ -10,7 +10,7 @@ class Customer
     @id = options['id'].to_i if options['id']
     @name = options['name']
     @funds = options['funds'].to_i
-    @ticket_count = 0
+    # @ticket_count = 0
   end
   #####################################################################
   #####################################################################
@@ -125,7 +125,8 @@ class Customer
     remaining_funds = funds -= price
     self.funds = remaining_funds
     self.update
-    @ticket_count += 1
+    ticket_count = 0
+    ticket_count += 1
     ## funds updated, now to update tickets?
 
   ## Ticket updated as well
